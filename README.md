@@ -1,1 +1,2 @@
 # somethingjs
+TS. REACT REDUX 
