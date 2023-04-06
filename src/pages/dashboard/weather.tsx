@@ -1,69 +1,62 @@
-import React from 'react';
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
-  Typography,
+  CardHeader,
   Tooltip,
+  Typography,
 } from "@material-tailwind/react";
-import weather from "../../assets/weather.png"
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  getCurrentCitySelector,
+  getLocationSelector,
+  getWeatherSelector,
+} from "../../redux/weather/weatherSlice";
+import sunny from "../../assets/sunny.png";
+import { Cloud, Sun } from "react-feather";
+import { temp } from "../../ultils";
 const Weather = () => {
-    return (
-      <Card className="w-96 bg-gray-100 ">
-        <CardHeader floated={false} className="h-full ">
-          <img
-            src={
-              "https://www.nicepng.com/png/detail/15-155040_weather-icon-weather.png"
-            }
-            alt="profile-picture"
-          />
-        </CardHeader>
-        <CardBody className="text-center">
-          <Typography variant="h4" color="blue-gray" className="mb-2">
-            HO CHI MINH CITY
-          </Typography>
-          <Typography color="blue" className="font-medium" textGradient>
-            35 ^ C
-          </Typography>
-        </CardBody>
-        <CardFooter className="flex justify-center gap-7 pt-2">
-          <Tooltip content="Like">
+  const location = useSelector(getWeatherSelector);
+  const currentCity = useSelector(getCurrentCitySelector);
+  const tempCurrent = temp(location.main.temp)
+  return (
+    <Card className="border flex justify-center w-[100%] hover:shadow-gray-400 hover:translate-x-1">
+      <CardBody>
+        <div className="flex justify-center ">
+          <Tooltip content={currentCity} >
             <Typography
-              as="a"
-              href="#facebook"
-              variant="lead"
-              color="blue"
-              textGradient
+              variant="h6"
+              className="text-sm mt-5 mr-5 truncate"
             >
-              <i className="fab fa-facebook" />
+              {currentCity}
             </Typography>
           </Tooltip>
-          <Tooltip content="Follow">
-            <Typography
-              as="a"
-              href="#twitter"
-              variant="lead"
-              color="light-blue"
-              textGradient
-            >
-              <i className="fab fa-twitter" />
-            </Typography>
-          </Tooltip>
-          <Tooltip content="Follow">
-            <Typography
-              as="a"
-              href="#instagram"
-              variant="lead"
-              color="purple"
-              textGradient
-            >
-              <i className="fab fa-instagram" />
-            </Typography>
-          </Tooltip>
-        </CardFooter>
-      </Card>
-    );
+          <div className="border-l-2 border-red-200 p-2 "></div>
+          <div className="text-2xl text-left ">
+            <Tooltip content={tempCurrent} className=" truncate">
+              {tempCurrent ?? '-'}
+            </Tooltip>
+            <p className="text-lg text-right  truncate"> Độ C </p>
+          </div>
+          <div>
+            {Number(tempCurrent) > 30 ? (
+              <Sun className="animate-spin" color="orange" />
+            ) : (
+              <Cloud className="animate-bounce" />
+            )}
+          </div>
+          <div className="border-l-2 border-yellow-600 ml-2"></div>
+          <div className="ml-4 mt-2 text-center ">
+            <h3 className="truncate">/Tình trạng Mây/</h3>
+            <p className="font-serif text-orange-900 capitalize truncate">
+              {location?.weather[0]?.description}
+            </p>
+          </div>
+        </div>
+      </CardBody>
+    </Card>
+  );
 };
 
 export default Weather;

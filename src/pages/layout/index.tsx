@@ -1,16 +1,12 @@
-import { onAuthStateChanged, signOut } from "@firebase/auth";
-import React, { FC, ReactNode, useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../../auth/firebase";
-import Toast from "../../components/Toast";
-import Dashboard from "../dashboard";
+import { onAuthStateChanged } from "@firebase/auth";
+import { FC, ReactNode, useEffect, useState } from "react";
+import { Coffee, PieChart, ShoppingBag, User } from "react-feather";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { auth } from "../../auth/firebase";
 import Menu from "../../components/Menu";
-import { useSelector } from "react-redux";
-import { getLoginSelector } from "../../redux/login/loginSlice";
-import { getUserSelector, setUser } from "../../redux/user/userSlice";
-import { useDispatch } from "react-redux";
-import { Coffee, PieChart, ShoppingBag, Sidebar, User } from "react-feather";
+import { getUserSelector } from "../../redux/user/userSlice";
 import { sidebar } from "./sidebar";
 
 interface HomeProps {
@@ -34,6 +30,7 @@ const Layout: FC<HomeProps> = (props) => {
     navigate(`${url?.url}`);
   };
   useEffect(() => {
+    
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties

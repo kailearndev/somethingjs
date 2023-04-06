@@ -266,3 +266,9 @@ export const fakeCV = [
     content:'Construction Work Management: CRM on construction. manage customers to rent construction equipment.Member size: 4, Technologies: ReactS. Material UI. Redux. C# Winform.'
   }
 ]
+
+
+// const people = [  { name: 'John', age: 30 },  { name: 'Jane', age: 25 },  { name: 'Bob', age: 40 }];
+
+// const person = people.find(p => p.name === 'John' && p.age === 30);
+// console.log(person); // { name: 'John', age: 30 }
