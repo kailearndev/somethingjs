@@ -8,6 +8,7 @@ import {
 // import WeatherApi from "./api/weather";
 import "./App.css";
 import Private from "./auth/Private";
+import { useProvine } from "./hooks/useProvinde";
 import AboutMe from "./pages/aboutme";
 import CustomerInformation from "./pages/customer";
 import Dashboard from "./pages/dashboard";
@@ -17,7 +18,7 @@ import Products from "./pages/products";
 import ErrorPage from "./ultils/Error";
 
 function App() {
-  
+
   const router = createBrowserRouter([
     {
       element: (

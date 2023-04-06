@@ -17,15 +17,14 @@ import images from '../../assets/background.jpg'
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPwd] = useState("");
-  const [error, setError] = useState<boolean>();
+  const [error, setError] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleLogin = async () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCre) => {
         const token = await userCre.user.getIdToken().then((item) => item);
-        dispatch(getLogin({ token }));
-        
+        dispatch(getLogin({ token }))
         localStorage.setItem("token", token);
         navigate("/");
       })
@@ -51,15 +50,20 @@ const Login = () => {
           backgroundImage: images,
         }}
       >
-        <div className="w-[22%] h-[350px] border   border-l-slate-500 shadow-xl  p-4">
+        <div
+          className={`w-[22%] h-[350px] border border-l-slate-500 shadow-xl  p-4 }`}
+        >
           <div className="flex justify-center   ">
-            <div className="h-[100px] w-[150px]">
-              <img src={logo} alt="" className="w-max h-full rounded-full " />
+            <div className={`h-[100px] w-[150px]`}>
+              <img
+                src={logo}
+                alt=""
+                className="w-max h-full rounded-full"
+              />
             </div>
           </div>
           <div className="p-7 grid grid-cols-1 gap-2 w-full ">
             <Input
-              className=""
               type="text"
               label="Email"
               onChange={onChangeEmail}
