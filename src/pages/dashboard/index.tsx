@@ -1,19 +1,33 @@
-import { Option, Select } from "@material-tailwind/react";
+import { Option } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Echart from "../../components/Echart";
 import { useProvine } from "../../hooks/useProvinde";
-import MapComponent from "./map"
+import MapComponent from "./map";
 // import Input from "../../components/Input";
-import { fetchWeather, getForecastWeather, getLocationSelector, setCityCurrent } from "../../redux/weather/weatherSlice";
+import {
+  fetchWeather,
+  getForecastWeather,
+  getLocationSelector,
+  setCityCurrent,
+} from "../../redux/weather/weatherSlice";
 import { optDashboardFake, optHomeChart } from "../../ultils/fakeData";
 import Weather from "./weather";
 import { temp } from "../../ultils";
 import { List } from "../../redux/weather/weather";
+import {
+  Box,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 const Dashboard = () => {
   const foreCastWeather = useSelector(getForecastWeather);
   // console.log(force.list.slice(0,5).map((item: List) => temp(item.main.temp)));
-const colors = ["#5470C6", "#EE6666"];
+  const colors = ["#5470C6", "#EE6666"];
 
   const weatherFake = {
     color: colors,
@@ -30,7 +44,6 @@ const colors = ["#5470C6", "#EE6666"];
     },
     xAxis: [
       {
-        
         type: "category",
         axisTick: {
           alignWithLabel: true,
@@ -118,48 +131,68 @@ const colors = ["#5470C6", "#EE6666"];
   };
   const dispatch = useDispatch();
   const provinde = useProvine();
-  const location = useSelector(getLocationSelector)
-  const handleChangeCity = (event: string | undefined) => {
+  const location = useSelector(getLocationSelector);
+  const handleChangeCity = (event: SelectChangeEvent) => {
     const regex = /(Tỉnh|Thành phố)\s*(.*)/i;
-    const match = event?.match(regex);
+    const match = event?.target.value.match(regex);
     const cityName = match ? match[2] : "";
-    // setCity(cityName);  
+    // setCity(cityName);
     dispatch(setCityCurrent(cityName));
     dispatch(fetchWeather());
   };
   return (
     <>
-      <div className="flex border rounded-lg border-1 p-5">
-        <div className="basis-1/3">
-          <div className="flex mb-5 ml-5 w-72">
+      <Grid
+        container
+        spacing={2}
+        sx={{ display: "flex", justifyContent: "center", p: 3 }}
+      >
+        <Grid item xs={4} md={2}>
+          <Box>
+            <InputLabel
+              sx={{
+                marginBottom: 2,
+              }}
+            >
+              Tỉnh/Thành Phố
+            </InputLabel>
             <Select
-              label="Tỉnh/Thành Phố"
-              // value={city}
-              onChange={(value) => handleChangeCity(value)}
+              autoWidth
+              placeholder="Tỉnh/Thành Phố"
+              onChange={handleChangeCity}
+              sx={{
+                width: 160,
+              }}
             >
               {provinde?.map((ite) => (
-                <Option value={ite.name} key={ite.code}>
+                <MenuItem value={ite.name} key={ite.code}>
                   {ite.name}
-                </Option>
+                </MenuItem>
               ))}
             </Select>
-          </div>
-          <div className="ml-5 w-96">
+          </Box>
+        </Grid>
+        <Grid item md={5}>
+          <Paper
+            sx={{
+              p: 3,
+              borderRadius: 4,
+              minHeight: "55%",
+            }}
+          >
             <Weather />
-          </div>
-          <div className="p-5 mt-3 rounded-md shadow-inner">
-            <MapComponent
-              center={{
-                lat: location.lat,
-                lng: location.lon,
-              }}
-            />
-          </div>
-        </div>
-        <div className="basis-2/3 border-l-2 rounded-lg">
-          <Echart style={{height: '70vh', width: '820px'}} option={weatherFake} />
-        </div>
-      </div>
+          </Paper>
+        </Grid>
+        <Grid item md={5}>
+          <Box
+            sx={{
+              width: "100%",
+            }}
+          >
+            <Echart option={weatherFake} />
+          </Box>
+        </Grid>
+      </Grid>
     </>
   );
 };

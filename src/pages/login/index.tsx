@@ -12,7 +12,7 @@ import Toast from "../../components/Toast";
 import { useAppDispatch } from "../../hooks/useRedux";
 import { getLogin } from "../../redux/login/loginSlice";
 import { setUser } from "../../redux/user/userSlice";
-import images from '../../assets/background.jpg'
+import images from "../../assets/background.jpg";
 // import { userInput } from './redux/loginSlice';
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -24,7 +24,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCre) => {
         const token = await userCre.user.getIdToken().then((item) => item);
-        dispatch(getLogin({ token }))
+        dispatch(getLogin({ token }));
         localStorage.setItem("token", token);
         navigate("/");
       })
@@ -43,59 +43,42 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <div
-        className="flex justify-center mt-48"
-        style={{
-          backgroundImage: images,
-        }}
-      >
-        <div
-          className={`w-[22%] h-[350px] border border-l-slate-500 shadow-xl  p-4 }`}
-        >
-          <div className="flex justify-center   ">
-            <div className={`h-[100px] w-[150px]`}>
-              <img
-                src={logo}
-                alt=""
-                className="w-max h-full rounded-full"
-              />
-            </div>
-          </div>
-          <div className="p-7 grid grid-cols-1 gap-2 w-full ">
-            <Input
-              type="text"
-              label="Email"
-              onChange={onChangeEmail}
-              size="lg"
-            />
-
-            <Input
-              className=""
-              type="password"
-              label={"Password "}
-              onChange={onChangePwd}
-              size="lg"
-            />
-          </div>
-          <div className="flex justify-center">
-            <Button
-              size="md"
-              className="mr-3 hover:translate-y-3"
-              onClick={handleLogin}
-            >
-              Login
-            </Button>
-            <Button
-              color="indigo"
-              className="    hover:translate-x-3"
-              onClick={handleLogin}
-            >
-              Forgot
-            </Button>
+    <div className="flex items-center h-screen  ">
+      <div className={"bg-gray-300 sm:w-1/4  mx-auto p-4 rounded-lg shadow-xl"}>
+        <div className="flex justify-center">
+          <div className={`h-[100px] w-[150px]`}>
+            <img src={logo} alt="" className="w-max h-full rounded-full" />
           </div>
         </div>
+        <div className="p-7 grid grid-cols-1 gap-2 w-full ">
+          <Input type="text" label="Email" onChange={onChangeEmail} size="lg" />
+
+          <Input
+            className=""
+            type="password"
+            label={"Password "}
+            onChange={onChangePwd}
+            size="lg"
+          />
+        </div>
+        <div className="flex justify-center">
+          <Button
+            size="md"
+            className="mr-3 hover:translate-y-3"
+            onClick={handleLogin}
+          >
+            Login
+          </Button>
+          <Button
+            color="indigo"
+            className="    hover:translate-x-3"
+            onClick={handleLogin}
+          >
+            Forgot
+          </Button>
+        </div>
       </div>
+
       <div className="absolute right-5 bottom-4 hover:transition duration-150 animate-pulse">
         {error === true ? (
           <Toast

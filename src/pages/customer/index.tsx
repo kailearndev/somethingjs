@@ -6,7 +6,7 @@ import Table from './Table';
 const CustomerInformation = () => {
   
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="grid grid-cols-1">
       <div className="mt-5">
         <Echart option={optCustomerDta} />
       </div>

@@ -16,46 +16,63 @@ import {
 import sunny from "../../assets/sunny.png";
 import { Cloud, Sun } from "react-feather";
 import { temp } from "../../ultils";
+import { Box, Divider, Grid } from "@mui/material";
 const Weather = () => {
   const location = useSelector(getWeatherSelector);
   const currentCity = useSelector(getCurrentCitySelector);
-  const tempCurrent = temp(location.main.temp)
+  const tempCurrent = temp(location.main.temp);
+  const animationStyle = {
+    animation: "myAnimation 2s ease-in-out infinite",
+  };
   return (
-    <Card className="border flex justify-center w-[100%] hover:shadow-gray-400 hover:translate-x-1">
-      <CardBody>
-        <div className="flex justify-center ">
-          <Tooltip content={currentCity} >
-            <Typography
-              variant="h6"
-              className="text-sm mt-5 mr-5 truncate"
-            >
-              {currentCity}
-            </Typography>
-          </Tooltip>
-          <div className="border-l-2 border-red-200 p-2 "></div>
-          <div className="text-2xl text-left ">
-            <Tooltip content={tempCurrent} className=" truncate">
-              {tempCurrent ?? '-'}
+    
+        <Grid container spacing={2} display="flex" justifyContent={"center"} minHeight='60%' p={2}>
+          <Grid item md={3}>
+            <Tooltip content={currentCity}>
+              <Typography variant="h4" className="text-sm mt-5 mr-5 truncate">
+                {currentCity}
+              </Typography>
             </Tooltip>
-            <p className="text-lg text-right  truncate"> Độ C </p>
-          </div>
-          <div>
-            {Number(tempCurrent) > 30 ? (
-              <Sun className="animate-spin" color="orange" />
-            ) : (
-              <Cloud className="animate-bounce" />
-            )}
-          </div>
-          <div className="border-l-2 border-yellow-600 ml-2"></div>
-          <div className="ml-4 mt-2 text-center ">
+          </Grid>
+          <Box
+            sx={{
+              borderLeft: 1,
+              borderColor: "orangered",
+            }}
+          />
+          <Grid item md={4}>
+            <Grid container spacing={2}>
+              <Grid item xs={7}>
+                <Box display={"flex"} alignItems="center">
+                  <Tooltip content={tempCurrent}>{tempCurrent ?? "-"}</Tooltip>
+                  <p style={{ marginLeft: "0.5rem" }}> Độ C </p>
+                </Box>
+              </Grid>
+              <Grid item xs={3}>
+                <Box>
+                  {Number(tempCurrent) > 30 ? (
+                    <Sun style={animationStyle} color="orange" />
+                  ) : (
+                    <Cloud className="animate-bounce" />
+                  )}
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Box
+            sx={{
+              borderLeft: 1,
+              borderColor: "green",
+            }}
+          />
+          <Grid item md={4}>
             <h3 className="truncate">/Tình trạng Mây/</h3>
-            <p className="font-serif text-orange-900 capitalize truncate">
+            <p >
               {location?.weather[0]?.description}
             </p>
-          </div>
-        </div>
-      </CardBody>
-    </Card>
+          </Grid>
+        </Grid>
+    
   );
 };
 

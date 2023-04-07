@@ -37,7 +37,7 @@ const AboutMe = () => {
     <div className="">
       <div className="flex ">
         <div className="basis-1/4">
-          <Card className="w-96 ">
+          <Card className="">
             <CardHeader
               floated={false}
               className="h-min hover:transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-crosshair  duration-300"
